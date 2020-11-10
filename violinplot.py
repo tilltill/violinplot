@@ -53,7 +53,7 @@ def stripe(x,p,v,left):
     p = PatchCollection(patches, edgecolor='none', facecolor='black', alpha=0.2)        
     ax.add_collection(p)
         
-def violin(d,x,p,v,w,left=True, mean=False, mode=False, outliers=False, normal=False, lcolor='y', rcolor='y', outlier_symbol='kx', non_normal=False):
+def violin(d,x,p,v,w,left=True, mean=False, mode=False, outliers=False, normal=False, lcolor='y', rcolor='y', outlier_symbol='kx', non_normal=False, **kwargs):
 
     if left:
         ax.fill_betweenx(x,p,v+p,facecolor=rcolor,alpha=0.2,lw=2)
@@ -226,8 +226,8 @@ def violin_plot(data, pos=None, ax=None, alt_data=None, spacing=0.75,  regress=F
     dist = max(pos)-min(pos)
     w = min(0.15*max(dist,1.0),0.5)
     w = w * spacing
-    
-    if alt_data == None:
+
+    if alt_data is None:
         alt_data =  data
         
         
@@ -256,9 +256,11 @@ if __name__=="__main__":
     pos = range(5)
     data = [normal(i/2,1,size=150) for i in pos]
     data2 = [mix(normal(2,0.1,size=200), normal(-2,1,size=200)) for i in pos]
-            
+
     fig=figure()
     ax = fig.add_subplot(111)
 
-    violin_plot(data,pos=pos,alt_data=data2,mean=True,mode=True,normal=True, regress=False, lcolor=[0.9,0.7,0.1], rcolor=[0.2,0.8,0.6], kde=0.5, non_normal=True, labels=['one', 'two', 'three', 'four', 'five'])
+    violin_plot(data,pos=pos, alt_data=data2,
+                kde='silverman', mean=False, mode=False,
+                lcolor="red", rcolor="blue")
     show()
